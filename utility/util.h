@@ -38,4 +38,9 @@ std::string trim(const std::string& str) {
     return str.substr(start, end-start+1);
 }
 
+void removeItemFast(std::vector<int>& vec, int index) {
+    vec[index] = vec[vec.size()-1];
+    vec.pop_back();
+}
+
 #endif

@@ -17,7 +17,7 @@ class Point {
         this->originalIndex = originalIndex;
     }
 
-    ecDistancT disance(Point& other) {
+    ecDistancT distance(Point& other) {
         long long dx, dy;
         dx = x - other.x;
         dy = y - other.y;

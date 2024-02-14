@@ -22,7 +22,7 @@ struct tspFileInfos {
     std::string edgeWeightType;
 };
 
-tspFileInfos newTspFileInfos( std::map<std::string, std::string> &tokens ) throw ( myTspErrT ) {
+tspFileInfos newTspFileInfos( std::map<std::string, std::string> &tokens ) {
     tspFileInfos infos;
 
     string problemName = tokens["NAME"];
@@ -68,12 +68,39 @@ public:
         this->pointsDim = points.size();
     }
 
-    std::string string();
-    Point& point( pointIndexT i );
+    std::string to_string() noexcept;
+    Point point( pointIndexT i ) noexcept;
+    ecDistancT pointDistance( pointIndexT i, pointIndexT j ) {
+        Point p1 = point(i);
+        Point p2 = point(j);
+        return p1.distance(p2);
+    }
 };
 
+string TspInst::to_string() noexcept {
+    std::string str = "TspInst: ";
+    char buffer[100];
+    sprintf(buffer, "problemName : %s, pointsDim : %d\n", problemnName.c_str(), pointsDim);
+    str += string(buffer);
+    str += "Points { ";
+    for ( int i = 0; i < pointsDim; i++ ) {
+        sprintf(buffer, "(%d, %d, %d)", points[i].originalIndex, points[i].x, points[i].y);
+        str += string(buffer);
+        if ( i < pointsDim-1 ) {
+            str += ", ";
+        }
+    }
+    str += " }";
 
-TspInst loadTspInst( std::string filePath) throw ( myTspErrT ) {
+    return str; 
+}
+
+Point TspInst::point( pointIndexT i ) noexcept {
+    return points[i];
+}
+
+
+TspInst loadTspInst( std::string filePath) {
     FILE* file;
 
     file = fopen(filePath.c_str(), "r");   
@@ -118,9 +145,13 @@ TspInst loadTspInst( std::string filePath) throw ( myTspErrT ) {
 
 
     } catch ( myTspErrT e ) {
-        throw sprintf("[loadTspInst] Error: %s", e.c_str());
+        char buffer[256];
+        sprintf(buffer, "[loadTspInst] Error: %s", e.c_str());
+        throw string(buffer);
     } catch ( exception e ) {
-        throw sprintf("[loadTspInst] Error: %s", e.what());
+        char buffer[256];
+        sprintf(buffer, "[loadTspInst] Error: %s", e.what());
+        throw string(buffer);
     }
 
     fclose(file);
