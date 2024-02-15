@@ -7,7 +7,7 @@
 
 ecDistancT calc2OptScoreDif(TspAns&  ans, orderIndexT idx1, orderIndexT idx2) noexcept {
 
-    const ecDistancT NULL_SCORE = -1;
+    const ecDistancT NULL_SCORE = 0;
 
     if (!ans.isValidOrder(idx1) || !ans.isValidOrder(idx2)) {
         std::cout << "[calc2OptScoreDif] Invalid index" << std::endl;
@@ -84,12 +84,12 @@ bool moveBestNeighborBy2Opt(TspAns& ans) noexcept {
     orderIndexT bestIdx2 = -1;
 
     for ( int i = 0; i < n; i++ ) {
-        for ( int j = i+1; j < n; j++ ) {
+        for ( int j = 0; j < n; j++ ) {
             orderIndexT idx1 = i, idx2 = j;
             ecDistancT scoreDif = calc2OptScoreDif(ans, idx1, idx2);
 
             if (scoreDif < bestDif) {
-                bestDif = bestDif;
+                bestDif = scoreDif;
                 bestIdx1 = idx1;
                 bestIdx2 = idx2;
             }
@@ -108,6 +108,9 @@ long long localSearchBy2Opt(TspAns& ans) noexcept {
     long long cnt = 0;
     while ( moveBestNeighborBy2Opt(ans) ) {
         cnt++;
+        cout << endl;
+        cout << "[Log] 2-opt move count: " << cnt << endl;
+        cout << ans.toString() << endl;
     }
     return cnt;
 }
