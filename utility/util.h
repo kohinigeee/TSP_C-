@@ -18,6 +18,27 @@ std::vector<std::string> split(const std::string& str, char delimiter) {
     return tokens;
 }
 
+bool isContainSpace(const std::string& str) {
+    for ( char c : str ) {
+        if ( isspace(c) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::vector<std::string> removeSpace(std::vector<std::string> &vec)  {
+    std::vector<std::string> ans;
+    for ( std::string token : vec ) {
+        if ( isContainSpace(token) || token == "" ) {
+            continue;
+        }
+        ans.push_back(token);
+    }
+    return ans;
+}
+
 std::string trim(const std::string& str) {
     size_t start = 0;
     size_t end = str.length()-1;

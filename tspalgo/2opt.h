@@ -109,7 +109,7 @@ long long localSearchBy2Opt(TspAns& ans) noexcept {
     while ( moveBestNeighborBy2Opt(ans) ) {
         cnt++;
         cout << endl;
-        cout << "[Log] 2-opt move count: " << cnt << endl;
+        printf("[Log] 2-opt move count: %lld\n", cnt);
         cout << ans.toString() << endl;
     }
     return cnt;

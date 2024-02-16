@@ -135,10 +135,13 @@ TspInst loadTspInst( std::string filePath) {
             fgets(buffer, sizeof(buffer), file);
 
             const string pointStr = trim(string(buffer));
-            const vector<string> tokens = split(pointStr, ' ');
-            const int idx = stoi(tokens[0]);
-            const double x = stod(tokens[1]);
-            const double y = stod(tokens[2]);
+            vector<string> tokens = split(pointStr, ' ');
+            tokens = removeSpace(tokens);
+            cout << "pointStr:" << pointStr << endl;
+            printf("token[0]:%s, token[1]:%s, token[2]:%s\n", tokens[0].c_str(), tokens[1].c_str(), tokens[2].c_str());
+            const int idx = stoi(trim(tokens[0]));
+            const double x = stod(trim(tokens[1]));
+            const double y = stod(trim(tokens[2]));
 
             points.push_back(Point(x, y, idx));
         }
